@@ -1,0 +1,20 @@
+from collections import defaultdict
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        delta = defaultdict(int)
+
+        # node = person, directed edge a->b if person a trusts person b
+        # Notice that the judge (if exists) has 0 outdegree and n-1 indegree
+        # Therefore, its number of indegree - outdegree equals n-1
+        # Only the judge satisfies this condition because anyone who trusts at 
+        # least one person has indegree - outdegree < n-1
+
+        for src, dst in trust:
+            delta[src] -= 1
+            delta[dst] += 1
+        
+        for i in range(1, n + 1):
+            if delta[i] == n - 1:
+                return i
+        
+        return -1
